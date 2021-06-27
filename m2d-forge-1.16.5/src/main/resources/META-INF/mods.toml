@@ -1,25 +1,25 @@
 modLoader = "javafml"
 loaderVersion = "[32,)"
 license = "Apache 2.0"
-issueTrackerURL = "https://github.com/DenisD3D/Minecraft2Discord/issues"
+issueTrackerURL = "https://github.com/DenisD3D/Mc2Discord/issues"
 
 [[mods]]
-modId = "minecraft2discord"
+modId = "mc2discord"
 version = "${file.jarVersion}"
-displayName = "Minecraft2discord"
-updateJSONURL = "https://m2d.denisd3d.ml/api/v1/forge/update.json"
-displayURL = "https://www.curseforge.com/minecraft/mc-mods/minecraft2discord"
+displayName = "Mc2discord"
+updateJSONURL = "https://raw.githubusercontent.com/DenisD3D/Mc2Discord/main/update.json"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/mc2discord"
 authors = "DenisD3D"
 description = '''Link your Minecraft chat with your Discord server'''
 
-[[dependencies.minecraft2discord]]
+[[dependencies.mc2discord]]
 modId = "forge"
 mandatory = true
 versionRange = "[32,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.minecraft2discord]]
+[[dependencies.mc2discord]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16.1,1.17)"

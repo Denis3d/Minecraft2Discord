@@ -1,8 +1,6 @@
-rootProject.name = 'minecraft2discord'
+rootProject.name = 'mc2discord'
 
 include 'm2d-core',
-        'm2d-forge-1.16.5',
-        'm2d-forge-1.15.2'
-        //'m2d-forge-1.14.4',
+        'm2d-forge-1.16.5'
         //'minecraft2discord-spigot',
         //'minecraft2discord-fabric'

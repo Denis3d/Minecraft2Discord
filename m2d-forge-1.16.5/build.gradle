@@ -15,13 +15,13 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 version = rootProject.version
-group = 'ml.denisd3d.minecraft2discord'
-archivesBaseName = 'minecraft2discord-forge-1.16.x'
+group = 'ml.denisd3d.mc2discord'
+archivesBaseName = 'mc2discord-forge-1.16.x'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 mixin {
-    add sourceSets.main, "minecraft2discord.refmap.json"
+    add sourceSets.main, "mc2discord.refmap.json"
 }
 
 minecraft {
@@ -33,7 +33,7 @@ minecraft {
             workingDirectory project.file('run_server')
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'info'
-            arg "-mixin.config=minecraft2discord.mixins.json"
+            arg "-mixin.config=mc2discord.mixins.json"
             arg "nogui"
             mods {
                 minecraft2discord {
@@ -44,11 +44,11 @@ minecraft {
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets.main.resources { srcDir 'src/generated/resources' } // todo : remove ?
 
 repositories {
     maven {
-        url "https://maven.blamejared.com/"
+        url "https://maven.blamejared.com/" //todo : remove ?
     }
 }
 
@@ -58,14 +58,12 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
 
     compile project(path: ':m2d-core')
-
-    compile fg.deobf("tschipp.fakename:fakename-1.16.2:1.4.0.9")
 }
 
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "minecraft2discord",
+                "Specification-Title"     : "mc2discord",
                 "Specification-Vendor"    : "DenisD3D",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
@@ -73,7 +71,7 @@ jar {
                 "Implementation-Vendor"   : "DenisD3D",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
 
-                "MixinConfigs": "minecraft2discord.mixins.json"
+                "MixinConfigs": "mc2discord.mixins.json"
         ])
     }
 }
@@ -85,6 +83,5 @@ reobf {
         mappings = createMcpToSrg.output
     }
 }
-
 
 jar.finalizedBy('reobfJar')
