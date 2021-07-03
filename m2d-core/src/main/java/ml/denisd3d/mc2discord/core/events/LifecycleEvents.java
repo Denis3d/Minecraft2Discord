@@ -26,7 +26,7 @@ public class LifecycleEvents {
         Mc2Discord.INSTANCE.botAvatar = Mc2Discord.INSTANCE.config.bot_avatar.isEmpty() ? readyEvent.getSelf().getAvatarUrl() : Entity.replace(Mc2Discord.INSTANCE.config.bot_avatar, Collections.emptyList());
 
         if (Mc2Discord.INSTANCE.config.channels.get(0).channel_id != 0) {
-            ArrayList<Permission> requiredPermissions = new ArrayList<>(PermissionSet.of(805325840L));
+            ArrayList<Permission> requiredPermissions = new ArrayList<>(PermissionSet.of(604359761));
 
             Mc2Discord.INSTANCE.client
                     .getChannelById(Snowflake.of(Mc2Discord.INSTANCE.config.channels.get(0).channel_id))
@@ -37,7 +37,9 @@ public class LifecycleEvents {
                     .subscribe(permissions -> {
                         if (!permissions.contains(Permission.ADMINISTRATOR)) {
                             requiredPermissions.removeAll(permissions);
-                            Mc2Discord.INSTANCE.errors.add(Mc2Discord.INSTANCE.langManager.formatMessage("errors.missing_permission", requiredPermissions.stream().map(Enum::name).collect(Collectors.joining(", "))));
+                            if (!requiredPermissions.isEmpty()) {
+                                Mc2Discord.INSTANCE.errors.add(Mc2Discord.INSTANCE.langManager.formatMessage("errors.missing_permission", requiredPermissions.stream().map(Enum::name).collect(Collectors.joining(", "))));
+                            }
                         }
                     });
         }

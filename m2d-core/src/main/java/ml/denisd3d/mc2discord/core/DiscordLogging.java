@@ -33,15 +33,9 @@ public class DiscordLogging extends AbstractAppender {
     }
 
     public static void init() {
-        LoggerContext lc = (LoggerContext) LogManager.getContext(false);
         DiscordLogging da = DiscordLogging.createAppender("DiscordLogging", null);
+        ((org.apache.logging.log4j.core.Logger) LogManager.getRootLogger()).addAppender(da);
         da.start();
-        lc.getConfiguration().addAppender(da);
-        for (Logger logger : lc.getLoggers()) {
-            if (!logger.getName().startsWith("discord4j.limitter"))
-                logger.addAppender(lc.getConfiguration().getAppender(da.getName()));
-        }
-        lc.updateLoggers();
     }
 
     @Override

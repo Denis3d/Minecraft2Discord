@@ -2,7 +2,6 @@ package ml.denisd3d.mc2discord.forge.storage;
 
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
-import com.sun.istack.internal.NotNull;
 import net.minecraft.server.management.UserListEntry;
 
 import java.util.UUID;

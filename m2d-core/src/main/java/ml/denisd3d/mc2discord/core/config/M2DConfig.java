@@ -236,6 +236,7 @@ public class M2DConfig {
 
         config.setComment("Misc", langManager.formatMessage("config.misc.comment"));
 
+        boolean need_reload = false;
         for (Field field : m2dConfig.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(Comment.class) && field.isAnnotationPresent(Path.class)) {
 
@@ -245,9 +246,12 @@ public class M2DConfig {
             }
             if (field.isAnnotationPresent(Value.class) && field.isAnnotationPresent(Path.class) && config.get(field.getAnnotation(Path.class).value()) == null) {
                 config.set(field.getAnnotation(Path.class).value(), langManager.formatMessage(field.getAnnotation(Value.class).value()));
+                need_reload = true;
             }
         }
 
+        if (need_reload)
+            m2dConfig = converter.toObject(config, M2DConfig::new);
         config.save();
 
         return m2dConfig;

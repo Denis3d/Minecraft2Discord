@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url='https://repo.spongepowered.org/maven' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
         jcenter()
         mavenCentral()
     }
@@ -35,20 +35,13 @@ minecraft {
             property 'forge.logging.console.level', 'info'
             arg "-mixin.config=mc2discord.mixins.json"
             arg "nogui"
+
             mods {
                 minecraft2discord {
                     source sourceSets.main
                 }
             }
         }
-    }
-}
-
-sourceSets.main.resources { srcDir 'src/generated/resources' } // todo : remove ?
-
-repositories {
-    maven {
-        url "https://maven.blamejared.com/" //todo : remove ?
     }
 }
 
@@ -63,7 +56,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "mc2discord",
+                "Specification-Title"     : "Mc2Discord",
                 "Specification-Vendor"    : "DenisD3D",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
@@ -71,7 +64,7 @@ jar {
                 "Implementation-Vendor"   : "DenisD3D",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
 
-                "MixinConfigs": "mc2discord.mixins.json"
+                "MixinConfigs"            : "mc2discord.mixins.json"
         ])
     }
 }

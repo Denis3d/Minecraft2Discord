@@ -12,8 +12,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ExtensionPoint;
-import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -21,6 +20,8 @@ import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.network.FMLNetworkConstants;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.io.File;
 
 @Mod("mc2discord")
 @Mod.EventBusSubscriber(Dist.DEDICATED_SERVER)
@@ -33,6 +34,17 @@ public class Mc2DiscordForge {
 
     @SubscribeEvent
     public static void onServerStarting(FMLServerStartingEvent event) {
+        if (ModList.get().isLoaded("minecraft2discord")) {
+            throw new RuntimeException("An old version of mc2discord is present under the minecraft2discord name. Please delete the old jar (minecraft2discord-forge-x.x.x.jar)");
+        }
+
+        File oldConfig = new File("config", "minecraft2discord.toml");
+        File newConfig = new File("config", "mc2discord.toml");
+        if (!newConfig.exists() && oldConfig.exists())
+        {
+            oldConfig.renameTo(newConfig);
+        }
+
         Mc2Discord.firstInit();
         Mc2Discord.INSTANCE = new Mc2Discord(false, new MinecraftImpl());
     }

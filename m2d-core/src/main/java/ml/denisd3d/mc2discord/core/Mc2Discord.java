@@ -7,34 +7,26 @@ import discord4j.core.event.EventDispatcher;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.gateway.GatewayObserver;
-import ml.denisd3d.mc2discord.core.events.DiscordEvents;
 import ml.denisd3d.mc2discord.core.config.M2DConfig;
+import ml.denisd3d.mc2discord.core.events.DiscordEvents;
 import ml.denisd3d.mc2discord.core.events.LifecycleEvents;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import reactor.netty.ConnectionObserver;
-import reactor.util.Loggers;
 
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Scanner;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 public class Mc2Discord {
     public static final Logger logger = LogManager.getLogger("mc2discord");
     public static Mc2Discord INSTANCE;
     public static File CONFIG_FILE = new File("config", "mc2discord.toml");
+    public final LangManager langManager;
     public boolean is_stopping;
     public M2DConfig config;
     public List<String> errors = new ArrayList<>();
@@ -49,7 +41,6 @@ public class Mc2Discord {
     public long startTime;
     private ConnectionObserver.State state = GatewayObserver.DISCONNECTED;
     private boolean isMinecraftStarted;
-    public final LangManager langManager;
 
     public Mc2Discord(boolean minecraftReady, IMinecraft iMinecraft) {
         this.isMinecraftStarted = minecraftReady;
@@ -57,16 +48,18 @@ public class Mc2Discord {
 
         String lang = "en_us";
         try {
-            Scanner scanner = new Scanner(CONFIG_FILE);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
-                int index = line.indexOf("lang = ");
-                if (index != -1) {
-                    lang = line.substring(index + 8, index + 13); // get 4 letter
-                    break;
+            if (CONFIG_FILE.exists()) {
+                Scanner scanner = new Scanner(CONFIG_FILE);
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine().trim();
+                    int index = line.indexOf("lang = ");
+                    if (index != -1) {
+                        lang = line.substring(index + 8, index + 13); // get 4 letter
+                        break;
+                    }
                 }
+                scanner.close();
             }
-            scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -59,7 +59,7 @@ public class    M2DCommands {
 
     public static String[] upload() {
         try {
-            HttpPost post = new HttpPost("https://m2d.denisd3d.ml/api/v1/upload/");
+            HttpPost post = new HttpPost("http://m2d.denisd3d.ml/api/v1/upload/");
 
             String config = String.join("\n", Files.readAllLines(Mc2Discord.CONFIG_FILE.toPath()));
 
@@ -103,6 +103,6 @@ public class    M2DCommands {
     }
 
     public static String getInviteLink() {
-        return M2DUtils.isTokenValid(Mc2Discord.INSTANCE.config.token) ? "https://discord.com/api/oauth2/authorize?client_id=" + TokenUtil.getSelfId(Mc2Discord.INSTANCE.config.token) + "&permissions=872926289&scope=bot" : LangManager.translate("commands.invite.error");
+        return M2DUtils.isTokenValid(Mc2Discord.INSTANCE.config.token) ? "https://discord.com/api/oauth2/authorize?client_id=" + TokenUtil.getSelfId(Mc2Discord.INSTANCE.config.token) + "&permissions=604359761&scope=bot" : LangManager.translate("commands.invite.error");
     }
 }
