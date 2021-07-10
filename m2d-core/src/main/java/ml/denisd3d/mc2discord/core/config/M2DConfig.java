@@ -17,7 +17,7 @@ import java.util.List;
 public class M2DConfig {
 
     @Path("lang")
-    @Comment(value = "config.lang.comment")
+    @Comment("config.lang.comment")
     @PreserveNotNull
     public String lang = "en_us";
 

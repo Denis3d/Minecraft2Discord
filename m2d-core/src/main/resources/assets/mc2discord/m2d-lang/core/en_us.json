@@ -57,7 +57,7 @@
     "config.misc.avatar_api.comment": " Url to fetch player avatar from. Must be a valid url and not empty. You may use Global variables and Player variables here",
     "config.misc.relay_bot_messages.comment": " Define if other bots messages must be sent in the minecraft chat",
     "config.misc.relay_say_me_command.comment": " Define if /say & /me command must be relayed on Discord",
-    "config.misc.allowed_mention.comment": " List of allowed mention type. Supported value : \"everyone\", \"roles\", \"users\"\n Eg : [\"roles\", \"users\"] to allow all mention except @everyone & @here",
+    "config.misc.allowed_mention.comment": " List of allowed mention type. Supported value : \"EVERYONE_AND_HERE\", \"ROLE\", \"USER\"\n Eg : [\"ROLE\", \"USER\"] to allow all mention except @everyone & @here",
     "config.misc.minecraft_chat_format.comment": " Format for the messages sent in the minecraft chat. You may use Global variables, Member variables and Message variable here",
     "config.misc.discord_chat_format.comment": " Format for chat messages sent in discord when webhook mode is turned to false. You may use Global variables, Player variables and Message variable here",
     "config.misc.discord_text.comment": " Message for the /discord command",

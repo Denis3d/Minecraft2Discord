@@ -50,14 +50,13 @@ public class MessageManager {
     private void sendWebhookMessage(long channelId, String content, String username, String avatarUrl, boolean useCodeblocks, Runnable successConsumer) {
         Mono<TextChannel> channelMono = this.instance.client.getChannelById(Snowflake.of(channelId)).ofType(TextChannel.class);
         channelMono.flatMapMany(textChannel -> textChannel.getWebhooks())
-                .filter(webhook -> webhook.getName().filter(s -> s.equals("Mc2Discord")).isPresent())
+                .filter(webhook -> webhook.getName().filter(s -> s.equals("Mc2Discord - " + Mc2Discord.INSTANCE.botName + "#" + Mc2Discord.INSTANCE.botDiscriminator)).isPresent())
                 .switchIfEmpty(Mono.defer(() -> channelMono.flatMap(textChannel ->
                         textChannel.createWebhook(webhookCreateSpec ->
-                                webhookCreateSpec.setName("Mc2Discord")))))
+                                webhookCreateSpec.setName("Mc2Discord - " + Mc2Discord.INSTANCE.botName + "#" + Mc2Discord.INSTANCE.botDiscriminator)))))
                 .next()
                 .subscribe(webhook -> M2DUtils.breakStringToLines(content, 2000, useCodeblocks).forEach(s ->
-                        webhook.execute(webhookExecuteSpec -> webhookExecuteSpec
-                                .setContent(s).setUsername(username).setAvatarUrl(avatarUrl)
+                        webhook.execute(legacyWebhookExecuteSpec -> legacyWebhookExecuteSpec.setContent(s).setUsername(username).setAvatarUrl(avatarUrl)
                                 .setAllowedMentions(AllowedMentions.builder().parseType(Mc2Discord.INSTANCE.config.allowed_mention.stream().map(AllowedMentions.Type::valueOf).toArray(AllowedMentions.Type[]::new)).build()))
                                 .doOnError(Mc2Discord.logger::error)
                                 .subscribe(unused -> successConsumer.run(), throwable -> DiscordLogging.logs = "", null)));

@@ -3,10 +3,11 @@ package ml.denisd3d.mc2discord.core.events;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Attachment;
 import discord4j.core.object.entity.User;
-import ml.denisd3d.mc2discord.core.entities.Entity;
+import discord4j.core.object.entity.Webhook;
 import ml.denisd3d.mc2discord.api.M2DPluginHelper;
 import ml.denisd3d.mc2discord.core.M2DUtils;
 import ml.denisd3d.mc2discord.core.Mc2Discord;
+import ml.denisd3d.mc2discord.core.entities.Entity;
 import ml.denisd3d.mc2discord.core.entities.Member;
 import ml.denisd3d.mc2discord.core.entities.Message;
 
@@ -16,14 +17,30 @@ public class DiscordEvents {
     private static boolean isAddedCommand = false;
 
     public static void onDiscordMessageReceived(MessageCreateEvent messageCreateEvent) {
-        if(!M2DUtils.canHandleEvent())
+        if (!M2DUtils.canHandleEvent())
             return;
 
         if (M2DPluginHelper.execute(plugin -> plugin.onDiscordMessageReceived(messageCreateEvent)))
             return;
 
         if (!messageCreateEvent.getMessage().getAuthor().isPresent()) // It's a webhook
+        {
+            messageCreateEvent.getMessage().getWebhook().map(Webhook::getName).onErrorReturn(throwable -> true, Optional.of("")).map(s -> s.orElse("")).subscribe(s -> {
+                if (Mc2Discord.INSTANCE.config.relay_bot_messages && !s.equals("Mc2Discord - " + Mc2Discord.INSTANCE.botName + "#" + Mc2Discord.INSTANCE.botDiscriminator)) {
+                    Member member = new Member(messageCreateEvent.getMessage().getUserData().username(),
+                            messageCreateEvent.getMessage().getUserData().discriminator(),
+                            messageCreateEvent.getMessage().getUserData().username(),
+                            messageCreateEvent.getMessage().getUserData().avatar().orElse(""));
+                    Message message = new Message(messageCreateEvent.getMessage().getContent());
+                    HashMap<String, String> attachments = new HashMap<>();
+                    for (Attachment attachment : messageCreateEvent.getMessage().getAttachments()) {
+                        attachments.put(attachment.getFilename(), attachment.getUrl());
+                    }
+                    Mc2Discord.INSTANCE.iMinecraft.sendMessage(Entity.replace(Mc2Discord.INSTANCE.config.minecraft_chat_format, Arrays.asList(member, message)), attachments);
+                }
+            });
             return;
+        }
 
         User author = messageCreateEvent.getMessage().getAuthor().get();
         if (author.getId().asLong() == Mc2Discord.INSTANCE.botId) // The message is from ourself
@@ -31,6 +48,9 @@ public class DiscordEvents {
 
         if (!Mc2Discord.INSTANCE.config.relay_bot_messages && author.isBot()) // It's a bot message
             return;
+
+        //if (Mc2Discord.INSTANCE.config.account_enabled && Mc2Discord.INSTANCE.m2dAccount.processMessage(messageCreateEvent))
+        //return;
 
         if (messageCreateEvent.getMessage().getContent().startsWith(Mc2Discord.INSTANCE.config.command_prefix)) // It's a command
         {

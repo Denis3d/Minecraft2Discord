@@ -57,7 +57,7 @@
     "config.misc.avatar_api.comment": " Url pour récupérer les avatar des joueurs. Il doit s'agir d'une url valide et non vide. Vous pouvez utiliser les variables globales et les variables du joueur (Player)",
     "config.misc.relay_bot_messages.comment": " Définie si les messages des autres bots doivent être envoyer sur le chat minecraft",
     "config.misc.relay_say_me_command.comment": " Définie si les commandes /say & /me doivent être relayé sur Discord",
-    "config.misc.allowed_mention.comment": " Liste des types de mentions autorisé. Valeurs supportés : \"everyone\", \"roles\", \"users\"\n Ex : [\"roles\", \"users\"] pour autoriser toutes les mentions sauf @everyone & @here",
+    "config.misc.allowed_mention.comment": " Liste des types de mentions autorisé. Valeurs supportés : \"EVERYONE_AND_HERE\", \"ROLE\", \"USER\"\n Ex : [\"ROLE\", \"USER\"] pour autoriser toutes les mentions sauf @everyone & @here",
     "config.misc.minecraft_chat_format.comment": " Format pour les messages envoyé dans le chat minecraft. Vous pouvez utiliser les variables globales, les variables du membre (Member) et les variables du message (Message)",
     "config.misc.discord_chat_format.comment": " Format pour les messages envoyé sur discord quand le mode webhook est désactivé. Vous pouvez utiliser les variables globales, les variables du joueur (Player) et les variables du message (Message)",
     "config.misc.discord_text.comment": " Message pour la commande /discord",
