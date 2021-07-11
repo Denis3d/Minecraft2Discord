@@ -118,4 +118,5 @@ run/
 !gradle-wrapper.jar
 
 /*/run_server/**
+/*/run_server_2/**
 /*/build/**
